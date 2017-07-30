@@ -7,7 +7,7 @@
 (def out-of-bounds-filler 0)
 
 (defn new-generation [starting-val num-of-cells]
-  (vec (repeat starting-val num-of-cells)))
+  (vec (repeat num-of-cells starting-val)))
 
 (defn inbounds? [generation-size cell-i]
   (< -1 cell-i generation-size))
