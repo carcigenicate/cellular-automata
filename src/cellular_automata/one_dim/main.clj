@@ -14,13 +14,13 @@
 
 (def fps 100)
 
-(def generation-size 100)
+(def generation-size 200)
 (def box-width (/ screen-width generation-size))
 (def max-generations (int (inc (/ screen-height box-width))))
 
-(def rule-set rs/odd-set)
-(def initial-generation (assoc (gen/new-generation 0 generation-size)
-                               (int (/ generation-size 2)) 1))
+(def rule-set rs/sum-set)
+(def initial-generation (assoc (gen/new-generation 1 generation-size)
+                               (int (/ generation-size 2)) 2))
 
 (defn add-new-generation [state]
   (update state :generations
@@ -46,10 +46,12 @@
   (let [neg-width (- box-width)]
     (range (- screen-height box-width) neg-width neg-width)))
 
+(defn cell-state-to-color [cell-state]
+  [cell-state 255 255])
+
 (defn draw-block [x y cell-state]
-  (let [c (if (zero? cell-state) [0 0 0] [255 255 255])]
-    (q/with-fill c
-      (q/rect x y box-width box-width))))
+  (q/with-fill (cell-state-to-color cell-state)
+    (q/rect x y box-width box-width)))
 
 (defn draw-generation [generation y]
   (let [x-boxes (map vector generation (xs-for-boxes generation))]
@@ -58,6 +60,7 @@
 
 (defn setup-state []
   (q/frame-rate fps)
+  (q/color-mode :hsb)
 
   (let [starting-gens [initial-generation]]
     (->State starting-gens)))

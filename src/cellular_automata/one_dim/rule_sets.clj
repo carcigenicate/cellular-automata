@@ -5,10 +5,11 @@
       0
       1))
 
-(defn gt-set [neighb]
-  (if (apply <= neighb)
-    1
-    0))
+(defn sum-set [neighb]
+  (let [adj-sum (/ (apply + neighb) 2)]
+    (cond
+      (> adj-sum 255) 2
+      :else adj-sum)))
 
 
 
