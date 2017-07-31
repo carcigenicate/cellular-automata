@@ -6,7 +6,7 @@
 
 ; TODO: Necessary? Immedietely replace with the filler?
 (def out-of-bounds-cell ::oob)
-(def out-of-bounds-filler 1)
+(def out-of-bounds-filler [0 0 0])
 
 (defn new-generation
   "Returns an empty generation of cells."

@@ -11,5 +11,11 @@
       (> adj-sum 255) 2
       :else adj-sum)))
 
-
-
+(defn full-color-set [neighb]
+  (let [rs (map first neighb)
+        gs (map second neighb)
+        bs (map #(get % 2) neighb)
+        sl #(rem (/ (apply - %) 2) 255)]
+    [(sl rs)
+     (sl gs)
+     (sl bs)]))

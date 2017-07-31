@@ -4,7 +4,7 @@
                  [helpers "1"]
                  [quil "2.6.0"]]
 
-  :main cellular-automata.main
+  :main cellular-automata.one-dim.main
 
   :target-path "target/%s"
 

@@ -3,24 +3,26 @@
             [quil.middleware :as m]
 
             [cellular-automata.one-dim.generation :as gen]
-            [cellular-automata.one-dim.rule-sets :as rs]))
+            [cellular-automata.one-dim.rule-sets :as rs])
+
+  (:import [java.awt Color]))
 
 ; TODO: Allow cells states from 0 to 255^3, and color accordingly?
 
 (defrecord State [generations])
 
-(def screen-width 1000)
-(def screen-height 1000)
+(def screen-width 700)
+(def screen-height 700)
 
 (def fps 100)
 
-(def generation-size 200)
+(def generation-size 150)
 (def box-width (/ screen-width generation-size))
 (def max-generations (int (inc (/ screen-height box-width))))
 
-(def rule-set rs/sum-set)
-(def initial-generation (assoc (gen/new-generation 1 generation-size)
-                               (int (/ generation-size 2)) 2))
+(def rule-set rs/full-color-set)
+(def initial-generation (assoc (gen/new-generation [100 100 100] generation-size)
+                               (int (/ generation-size 2)) [255 0 0]))
 
 (defn add-new-generation [state]
   (update state :generations
@@ -46,11 +48,8 @@
   (let [neg-width (- box-width)]
     (range (- screen-height box-width) neg-width neg-width)))
 
-(defn cell-state-to-color [cell-state]
-  [cell-state 255 255])
-
 (defn draw-block [x y cell-state]
-  (q/with-fill (cell-state-to-color cell-state)
+  (q/with-fill cell-state
     (q/rect x y box-width box-width)))
 
 (defn draw-generation [generation y]
@@ -60,7 +59,6 @@
 
 (defn setup-state []
   (q/frame-rate fps)
-  (q/color-mode :hsb)
 
   (let [starting-gens [initial-generation]]
     (->State starting-gens)))
